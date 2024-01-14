@@ -1,38 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <article>
+    <article class="mb-4">
         <h2>{{ article.title }}</h2>
-        <div class="metadata">Ecrit le {{ article.createdAt | date('d/m/y') }} à {{ article.createdAt | date('H:i') }} dans la categorie {{ article.category.title }} </div>
+        <div class="metadata mb-3">
+            Écrit le {{ article.createdAt | date('d/m/y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie {{ article.category.title }}
+        </div>
         <div class="content">
-            <img src="{{ article.image }}" alt="">
+            <img src="{{ article.image }}" alt="{{ article.title }}" class="img-fluid mb-3 mx-auto d-block">
             {{ article.content | raw }}
         </div>
     </article>
-    <section id="commentaires">
-        <h3>{{ article.comments | length }} commentaires</h3>
+
+    <section id="commentaires" class="mt-4">
+        <h3 class="mb-4">{{ article.comments | length }} commentaires</h3>
+
         {% for comment in article.comments %}
-            <div class="comment">
+            <div class="comment border p-3 mb-3">
                 <div class="row">
                     <div class="col-3">
-                        {{comment.author}} (<small>{{comment.createdAt | date('d/m/Y à H:i')}}</small>)
+                        <strong>{{ comment.author }}</strong> (<small>{{ comment.createdAt | date('d/m/Y à H:i') }}</small>)
                     </div>
                     <div class="col">
-                        {{comment.content | raw}}
+                        {{ comment.content | raw }}
                     </div>
                 </div>
             </div>
         {% endfor %}
+
         {% if app.user %}
-            {{ form_start(commentForm) }}
-            {{ form_row(commentForm.author, {'attr': {'placeholder': "Votre nom"}}) }}
-            {{ form_row(commentForm.content, {'attr': {'placeholder': "Votre commentaire"}}) }}
-        
-            <button type="submit" class="btn btn-success" style="margin-top: 10px;">Envoyer</button>
-            {{ form_end(commentForm) }}
+            <div class="mt-4">
+                <h4>Laissez un commentaire</h4>
+                {{ form_start(commentForm) }}
+                <div class="form-group">
+                    {{ form_row(commentForm.author, {'attr': {'class': 'form-control', 'placeholder': 'Votre nom'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(commentForm.content, {'attr': {'class': 'form-control', 'placeholder': 'Votre commentaire'}}) }}
+                </div>
+                <button type="submit" class="btn btn-success mt-2">Envoyer</button>
+                {{ form_end(commentForm) }}
+            </div>
         {% else %}
-            <h4>Connectez-vous pour commenter</h4>
-            <a href="{{path('security_login')}}" class="btn-primary">Login</a>
+            <div class="mt-4 d-flex justify-content-between align-items-center">
+                <a href="{{ path('security_login') }}" class="btn btn-primary">Connectez-vous pour commenter</a>
+            </div>
+
         {% endif %}
     </section>
 {% endblock %}

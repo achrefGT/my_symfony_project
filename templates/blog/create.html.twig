@@ -3,32 +3,47 @@
 {% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% if editMode %}
+                    <h1 class="text-center mb-4">Edit Article</h1>
+                {% else %}
+                    <h1 class="text-center mb-4">Create Article</h1>
+                {% endif %}
 
-    {% if editMode %}
-                <h1>Modification d'un article !</h1>
-            {% else %}
-                <h1>Creation d'un article !</h1>
-            {% endif %}
+                {{ form_start(formArticle, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
 
-    {{ form_start(formArticle) }}
+                <div class="form-group">
+                    {{ form_row(formArticle.title, {'attr': {'class': 'form-control', 'placeholder': 'Title of the article', 'required': 'required'}}) }}
+                </div>
 
-        {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de l'article"}}) }}
-        {{ form_row(formArticle.category) }}
-        {{ form_row(formArticle.content, {'attr': {'placeholder': "Contenu de l'article"}}) }}
-        {{ form_row(formArticle.image, {'attr': {'placeholder': "URL de l'image"}}) }}
+                <div class="form-group">
+                    {{ form_row(formArticle.category, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
+                <div class="form-group">
+                    {{ form_row(formArticle.content, {'attr': {'class': 'form-control', 'placeholder': 'Content of the article', 'required': 'required'}}) }}
+                </div>
 
-        {{ form_widget(formArticle) }}
+                <div class="form-group">
+                    {{ form_row(formArticle.image, {'attr': {'class': 'form-control', 'placeholder': 'URL of the image'}}) }}
+                </div>
 
-        <button type="submit" class="btn btn-success" style="margin-top: 10px;">
-            {% if editMode %}
-                Enregistrer
-            {% else %}
-                Ajouter l'article
-            {% endif %}
-        </button>
-    
-    {{ form_end(formArticle) }}
+                {{ form_widget(formArticle) }}
 
+                <div class="text-center mt-4"> {# Increased space between fields #}
+                    <button type="submit" class="btn btn-success">
+                        {% if editMode %}
+                            Save Changes
+                        {% else %}
+                            Add Article
+                        {% endif %}
+                    </button>
+                </div>
 
+                {{ form_end(formArticle) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

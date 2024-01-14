@@ -31,7 +31,7 @@ class ArticlesFixtures extends Fixture
 
                 $article->setTitle($faker->sentence())
                         ->setContent($content)
-                        ->setImage($faker->imageUrl())
+                        ->setImage("https://picsum.photos/id/".random_int(1, 200)."/640/480")
                         ->setCreatedAt($faker->dateTimeBetween('-6 months'))
                         ->setCategory($category);
 

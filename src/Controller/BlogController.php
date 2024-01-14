@@ -8,13 +8,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Contact;
 use App\Repository\ArticleRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\ArticleType;
 use App\Form\CommentType;
-
+use App\Form\ContactType;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -100,6 +101,22 @@ class BlogController extends AbstractController
         return $this->render('blog/show.html.twig', [
             'article' => $article,
             'commentForm' => $form->createView()
+        ]);
+    }
+
+     /**
+     * @Route("/contact", name="contact")
+     */
+    public function contact(Request $request, EntityManagerInterface $manager){
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $manager->persist($contact);
+            $manager->flush();
+        }
+        return $this->render('blog/contact.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

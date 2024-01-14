@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Connexion</div>
+                    <div class="card-header text-center"><h1>Connexion</h1></div>
                     <div class="card-body">
                         <form action="{{ path('security_login') }}" method="post">
 
@@ -21,6 +21,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success" style="margin-top: 10px;">Se connecter</button>
+                                <a href="{{ path('security_registration') }}" class="btn btn-primary mt-2">S'inscrire</a>
                             </div>
                         </form>
                     </div>
