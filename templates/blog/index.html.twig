@@ -17,6 +17,9 @@
                                 Ecrit le {{ article.createdAt | date('d/m/y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie {{ article.category.title }}
                             </div>
                             <a href="{{ path('blog_show', { 'id' : article.id }) }}" class="btn btn-primary mt-3">Lire la suite</a>
+                            {% if app.user %}
+                                <a href="{{ path('blog_edit', { 'id' : article.id }) }}" class="btn btn-primary mt-3">Editer</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
