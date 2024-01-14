@@ -14,25 +14,25 @@
 
                 {{ form_start(formArticle, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
 
-                <div class="form-group">
+                <div class="form-group mt-5">
                     {{ form_row(formArticle.title, {'attr': {'class': 'form-control', 'placeholder': 'Title of the article', 'required': 'required'}}) }}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mt-4">
                     {{ form_row(formArticle.category, {'attr': {'class': 'form-control'}}) }}
                 </div>
 
-                <div class="form-group">
-                    {{ form_row(formArticle.content, {'attr': {'class': 'form-control', 'placeholder': 'Content of the article', 'required': 'required'}}) }}
+                <div class="form-group mt-4">
+                    {{ form_row(formArticle.content, {'attr': {'class': 'form-control', 'placeholder': 'Content of the article', 'required': 'required', 'rows': 5}}) }}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mt-4">
                     {{ form_row(formArticle.image, {'attr': {'class': 'form-control', 'placeholder': 'URL of the image'}}) }}
                 </div>
 
                 {{ form_widget(formArticle) }}
 
-                <div class="text-center mt-4"> {# Increased space between fields #}
+                <div class="text-center mt-4"> 
                     <button type="submit" class="btn btn-success">
                         {% if editMode %}
                             Save Changes
