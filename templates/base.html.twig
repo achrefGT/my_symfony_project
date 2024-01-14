@@ -29,6 +29,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('blog_create') }}">Créer un article</a>
                 </li>
+
+                {% if not app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('security_login') }}">Login</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('security_logout') }}">Logout</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
