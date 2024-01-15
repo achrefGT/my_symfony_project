@@ -34,8 +34,11 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{{ path('admin_modifier_utilisateur', {'id': user.id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                            {% if "ROLE_ADMIN" not in user.roles %}
+                                <a href="{{ path('admin_modifier_utilisateur', {'id': user.id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                            {% endif %}
                         </td>
+
                     </tr>
                 {% endfor %}
             </tbody>
