@@ -26,7 +26,13 @@
                             <td>{{ category.title }}</td>
                             <td>{{ category.description }}</td>
                             <td>{{ category.articles | length }}</td>
-                            <td><a href="{{ path('admin_delete_category', {'id': category.id}) }}" class="btn btn-danger btn-sm">Delete</a></td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Category Actions">
+                                    <a href="{{ path('admin_delete_category', {'id': category.id}) }}" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="{{ path('admin_edit_category', {'id': category.id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                                </div>
+                            </td>
+
                         </tr>
                     {% endfor %}
                 </tbody>

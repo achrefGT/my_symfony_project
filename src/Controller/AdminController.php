@@ -126,15 +126,19 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/category/{id}/edit", name = "edit_category")
      * @Route("/category/new", name="create_category")
      */
-    public function createCategory(Request $request)
+    public function createCategory(Category $category = null, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        $category = new Category();
+        if(!$category){
+            $category = new Category();
+        }
+        
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -144,6 +148,7 @@ class AdminController extends AbstractController
         }
         return $this->render('admin/category.html.twig', [
             'form' => $form->createView(),
+            'editMode' => $category->getId() !== null
         ]);
     }
 }
