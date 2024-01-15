@@ -4,22 +4,22 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">           
-                <h1 class="text-center mb-4">Connexion</h1>
+                <h1 class="text-center mb-4">Login</h1>
                 <form action="{{ path('security_login') }}" method="post">
 
                     <div class="form-group mt-5">
-                        <label for="Email">Adresse E-mail</label>
+                        <label for="Email">E-mail</label>
                         <input type="text" id="Email" name="_username" class="form-control" required>
                     </div>
 
                     <div class="form-group mt-4">
-                        <label for="password">Mot de passe</label>
+                        <label for="password">Password</label>
                         <input type="password" id="password" name="_password" class="form-control" required>
                     </div>
 
                     <div class="form-group text-center mt-4">
-                        <button type="submit" class="btn btn-success" style="margin-top: 10px;">Se connecter</button>
-                        <a href="{{ path('security_registration') }}" class="btn btn-primary mt-2">S'inscrire</a>
+                        <button type="submit" class="btn btn-success" style="margin-top: 10px;">Login</button>
+                        <a href="{{ path('security_registration') }}" class="btn btn-primary mt-2">Register</a>
                     </div>
                 </form>   
             </div>
