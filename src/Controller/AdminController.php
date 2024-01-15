@@ -8,9 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
 use App\Repository\ContactRepository;
+use App\Repository\CategoryRepository;
+
 use App\Entity\User;
 use App\Entity\Contact;
+use App\Entity\Category;
 use App\Form\EditUserType;
+use App\Form\CategoryType;
 
 
 /**
@@ -90,5 +94,56 @@ class AdminController extends AbstractController
         $this->addFlash('success', 'Message deleted successfully');
 
         return $this->redirectToRoute('admin_contact_list');
+    }
+
+    /**
+     * @Route("/categories", name="categories_list")
+     */
+    public function categoriesList(CategoryRepository $repo): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $categories = $repo->findAll();
+
+        return $this->render('admin/categories.html.twig', [
+            'categories' => $categories,
+        ]);
+    }
+
+    /**
+     * @Route("/category/delete/{id}", name="delete_category")
+     */
+    public function deleteCategory(Category $category)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($category);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Category deleted successfully');
+
+        return $this->redirectToRoute('admin_categories_list');
+    }
+
+    /**
+     * @Route("/category/new", name="create_category")
+     */
+    public function createCategory(Request $request)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $entityManager->persist($category);
+            $entityManager->flush();
+            $this->addFlash('success', 'Category created successfully');
+        }
+        return $this->render('admin/category.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

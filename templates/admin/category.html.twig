@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mb-4">Create Category</h1>
+
+                {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                <div class="form-group mt-5">
+                    {{ form_row(form.title, {'attr': {'class': 'form-control', 'placeholder': 'title', 'required': 'required'}}) }}
+                </div>
+
+                <div class="form-group mt-4">
+                    {{ form_row(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Category description', 'required': 'required'}}) }}
+                </div>
+
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-success">Send</button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

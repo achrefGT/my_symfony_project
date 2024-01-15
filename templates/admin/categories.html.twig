@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of Categories{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">List of Categories</h1>
+
+        {% if categories is empty %}
+            <p class="mt-3">No category available.</p>
+        {% else %}
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">title</th>
+                        <th scope="col">description</th>
+                        <th scope="col">Number of articles</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.id }}</td>
+                            <td>{{ category.title }}</td>
+                            <td>{{ category.description }}</td>
+                            <td>{{ category.articles | length }}</td>
+                            <td><a href="{{ path('admin_delete_category', {'id': category.id}) }}" class="btn btn-danger btn-sm">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ path('admin_create_category') }}" class="btn btn-primary btn-sm">Add a Category</a>
+        {% endif %}
+    </div>
+{% endblock %}
