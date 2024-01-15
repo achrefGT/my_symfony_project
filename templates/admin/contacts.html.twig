@@ -17,6 +17,7 @@
                         <th scope="col">Email</th>
                         <th scope="col">Phone Number</th>
                         <th scope="col">Message</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,6 +28,7 @@
                             <td>{{ contact.email }}</td>
                             <td>{{ contact.phoneNumber }}</td>
                             <td>{{ contact.message }}</td>
+                            <td><a href="{{ path('admin_delete_contact', {'id': contact.id}) }}" class="btn btn-danger btn-sm">Delete</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
 use App\Repository\ContactRepository;
 use App\Entity\User;
+use App\Entity\Contact;
 use App\Form\EditUserType;
 
 
@@ -22,6 +23,7 @@ class AdminController extends AbstractController
      */
     public function index()
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
         ]);
@@ -32,6 +34,7 @@ class AdminController extends AbstractController
      */
     public function usersList(UserRepository $users)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('admin/users.html.twig', [
             'users' => $users->findAll(),
         ]);
@@ -42,6 +45,7 @@ class AdminController extends AbstractController
      */
     public function editUser(User $user, Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
 
@@ -64,6 +68,7 @@ class AdminController extends AbstractController
      */
     public function contactList(ContactRepository $contactRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $contacts = $contactRepository->findAll();
 
         return $this->render('admin/contacts.html.twig', [
@@ -71,4 +76,19 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/contacts/delete/{id}", name="delete_contact")
+     */
+    public function deleteContact(Contact $contact)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($contact);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Message deleted successfully');
+
+        return $this->redirectToRoute('admin_contact_list');
+    }
 }
