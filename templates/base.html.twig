@@ -26,23 +26,41 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('blog') }}">Articles</a>
                 </li>
-                {% if app.user %}
+                {% if is_granted('ROLE_EDITOR') %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('blog_create') }}">Créer un article</a>
                     </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('contact') }}">Contact</a>
-                </li>
+                
                 {% if not app.user %}
+                    <li class="nav-item">
+                            <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+                        </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('security_login') }}">Login</a>
                     </li>
+
                 {% else %}
-                   
+
+                    {% if is_granted('ROLE_ADMIN') %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin_utilisateurs') }}">List Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin_contact_list') }}">Contacts</a>
+                        </li>
+
+                        {% else %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('security_logout') }}">Logout</a>
                     </li>
+
                 {% endif %}
                
             </ul>

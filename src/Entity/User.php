@@ -8,7 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="Cet e-mail est déjà utilisé.")
@@ -24,7 +23,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * 
      */
     private $email;
 
@@ -39,10 +37,15 @@ class User implements UserInterface
      */
     private $password;
 
-     /**
+    /**
      * @Assert\EqualTo(propertyPath="password", message="Les mots de passe ne correspondent pas")
      */
     private $confirmPassword;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     public function getId(): ?int
     {
@@ -87,7 +90,7 @@ class User implements UserInterface
 
     public function getConfirmPassword(): ?string
     {
-        return $this->password;
+        return $this->confirmPassword;
     }
 
     public function setConfirmPassword(string $confirmPassword): self
@@ -101,7 +104,16 @@ class User implements UserInterface
 
     public function getSalt() {}
 
-    public function getRoles() {
-        return ['ROLE_USER'];
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        return empty($roles) ? ['ROLE_USER'] : $roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 }

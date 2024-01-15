@@ -29,7 +29,7 @@
                                 Ecrit le {{ article.createdAt | date('d/m/y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie <b>{{ article.category.title }}</b>
                             </div>
                             <a href="{{ path('blog_show', { 'id' : article.id }) }}" class="btn btn-primary mt-3">Lire la suite</a>
-                            {% if app.user %}
+                            {% if is_granted('ROLE_EDITOR') %}
                                 <a href="{{ path('blog_edit', { 'id' : article.id }) }}" class="btn btn-primary mt-3">Editer</a>
                             {% endif %}
                         </div>

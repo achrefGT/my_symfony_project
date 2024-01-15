@@ -19,6 +19,8 @@ use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Form\ContactType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 
 
@@ -51,6 +53,7 @@ class BlogController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_EDITOR")
      * @Route("/blog/new", name = "blog_create")
      * @Route("/blog/{id}/edit", name = "blog_edit")
      */
