@@ -1,12 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <section class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h2 class="text-center mb-4">Welcome to our Blogging site !</h2>
+    <section class="container mt-5"> 
+        <div class="row justify-content-center mt-5"> 
+            <div class="col-md-8 text-center mb-4"> 
+                <h2 class="mb-4">Welcome to our Blogging site!</h2>
                 <p class="lead">Explore the latest articles, share your thoughts, and stay updated with our modern blog platform.</p>
+                <a href="{{ path('blog') }}" class="btn btn-primary btn-lg">Explore Articles</a>
             </div>
+        </div>
+        <div class="row mt-5 mb-5"> 
+            <div class="text-center">
+                <h2 class="mb-4">featured Articles </h2>
+            </div>
+            {% for article in featuredArticles %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ asset(article.image) }}" class="card-img-top" alt="{{ article.title }}">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ article.title }}</h4>
+                            <p class="card-text">{{ article.content | striptags | length > 150 ? article.content | striptags | slice(0, 150) ~ '...' : article.content | striptags }}</p>
+                            <div class="metadata small">
+                                Ecrit le {{ article.createdAt | date('d/m/y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie <b>{{ article.category.title }}</b>
+                            </div>
+                            <a href="{{ path('blog_show', { 'id': article.id }) }}" class="btn btn-primary mt-3">Lire la suite</a>
+                            {% if app.user %}
+                                <a href="{{ path('blog_edit', { 'id' : article.id }) }}" class="btn btn-primary mt-3">Editer</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

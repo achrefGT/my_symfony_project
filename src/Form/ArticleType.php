@@ -8,6 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 
 class ArticleType extends AbstractType
 {
@@ -21,6 +23,10 @@ class ArticleType extends AbstractType
             ])
             ->add('content')
             ->add('image')
+            ->add('isFeatured', CheckboxType::class, [
+                'label' => 'Is Featured',
+                'required' => false, 
+            ])
         ;
     }
 

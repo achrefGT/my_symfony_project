@@ -9,7 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Contact;
+use App\Entity\Category;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,21 +27,27 @@ class BlogController extends AbstractController
     /**
      * @Route("/blog", name="blog")
      */
-    public function index(ArticleRepository $repo): Response
+    public function index(ArticleRepository $repoArticle, CategoryRepository $repoCategory): Response
     {
-        $articles = $repo->findAll();
+        $articles = $repoArticle->findAll();
+        $categories = $repoCategory->findAll();
+
 
         return $this->render('blog/index.html.twig', [
-            'controller_name' => 'BlogController',
             'articles' => $articles,
+            'categories' => $categories,
         ]);
     }
 
     /**
      * @Route("/",name="home")
      */
-    public function home() {
-        return $this->render('blog/home.html.twig');
+    public function home(ArticleRepository $repoArticle) {
+        $featuredArticles = $repoArticle->findBy(['isFeatured' => true], ['createdAt' => 'DESC'], 3);
+        
+        return $this->render('blog/home.html.twig', [
+            'featuredArticles' => $featuredArticles,
+        ]);
     }
 
     /**
@@ -119,4 +127,25 @@ class BlogController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/category/{title}", name="show_category")
+     */
+    public function showByCategory(CategoryRepository $repo, string $title)
+    {
+        $category = $repo->findOneBy(['title' => $title]);
+        $categories = $repo->findAll();
+
+        if (!$category) {
+            throw $this->createNotFoundException('Category not found');
+        }
+
+        $articles = $category->getArticles();
+
+        return $this->render('blog/index.html.twig', [
+            'articles' => $articles,
+            'categories' => $categories,
+        ]);
+    }   
+
 }

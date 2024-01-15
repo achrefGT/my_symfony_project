@@ -54,6 +54,11 @@ class Article
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isFeatured = false;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -150,6 +155,18 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+    
+    public function getIsFeatured(): ?bool
+    {
+        return $this->isFeatured;
+    }
+
+    public function setIsFeatured(bool $isFeatured): self
+    {
+        $this->isFeatured = $isFeatured;
 
         return $this;
     }
