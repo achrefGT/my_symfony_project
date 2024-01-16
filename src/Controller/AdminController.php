@@ -13,6 +13,7 @@ use App\Repository\CategoryRepository;
 use App\Entity\User;
 use App\Entity\Contact;
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Form\EditUserType;
 use App\Form\CategoryType;
 
@@ -149,6 +150,42 @@ class AdminController extends AbstractController
         return $this->render('admin/category.html.twig', [
             'form' => $form->createView(),
             'editMode' => $category->getId() !== null
+        ]);
+    }
+
+     /**
+     * @Route("/user/toggleBan/{id}", name="toggle_ban_user")
+     */
+    public function toggleBanUser(User $user)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $user->setIsBanned(!$user->getIsBanned());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        $actionMessage = $user->getIsBanned() ? 'User banned successfully.' : 'User unbanned successfully.';
+        $this->addFlash('success', $actionMessage);
+
+        return $this->redirectToRoute('admin_utilisateurs');
+    }
+
+    /**
+     * @Route("/comment/delete/{id}", name="delete_comment")
+     */
+    public function deleteComment(Comment $comment)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Comment deleted successfully');
+
+        return $this->redirectToRoute('blog_show', [
+            'id' => $comment->getArticle()->getId()
         ]);
     }
 }

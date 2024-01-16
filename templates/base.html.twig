@@ -72,6 +72,13 @@
 </nav>
 
         <div class="container  mt-5">
+            {% if app.user %}
+                {% if app.user.isBanned %}
+                    <div class="alert alert-danger">
+                        <strong>Banned!</strong> You are now banned by the admin</a>.
+                    </div>
+                {% endif %}
+            {% endif %}
             {% block body %}{% endblock %}
         </div>
     </body>

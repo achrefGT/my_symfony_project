@@ -24,23 +24,35 @@
                     <div class="col">
                         {{ comment.content | raw }}
                     </div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="col-1">
+                            <a href="{{ path('admin_delete_comment', {'id': comment.id}) }}" class="btn btn-danger btn-sm">Delete</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
 
+
         {% if app.user %}
-            <div class="mt-4">
-                <h4>Drop a comment</h4>
-                {{ form_start(commentForm) }}
-                <div class="form-group mt-3">
-                    {{ form_row(commentForm.author, {'attr': {'class': 'form-control', 'placeholder': 'Your name'}}) }}
+            {% if not app.user.isBanned %}
+                <div class="mt-4">
+                    <h4>Drop a comment</h4>
+                    {{ form_start(commentForm) }}
+                    <div class="form-group mt-3">
+                        {{ form_row(commentForm.author, {'attr': {'class': 'form-control', 'placeholder': 'Your name'}}) }}
+                    </div>
+                    <div class="form-group mt-3">
+                        {{ form_row(commentForm.content, {'attr': {'class': 'form-control', 'placeholder': 'Your comment'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3 mb-3">Send</button>
+                    {{ form_end(commentForm) }}
                 </div>
-                <div class="form-group mt-3">
-                    {{ form_row(commentForm.content, {'attr': {'class': 'form-control', 'placeholder': 'Your comment'}}) }}
+            {% else %}
+                <div class="mt-4 d-flex justify-content-between align-items-center">
+                    <a href="{{ path('security_login') }}" class="btn btn-primary disabled">You are Banned!</a>
                 </div>
-                <button type="submit" class="btn btn-success mt-3 mb-3">Send</button>
-                {{ form_end(commentForm) }}
-            </div>
+            {% endif %}
         {% else %}
             <div class="mt-4 d-flex justify-content-between align-items-center">
                 <a href="{{ path('security_login') }}" class="btn btn-primary">Connect to commente</a>

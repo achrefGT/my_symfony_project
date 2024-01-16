@@ -35,8 +35,17 @@
                         </td>
                         <td>
                             {% if "ROLE_ADMIN" not in user.roles %}
-                                <a href="{{ path('admin_modifier_utilisateur', {'id': user.id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                                <div class="btn-group" role="group" aria-label="User Actions">
+                                    <a href="{{ path('admin_modifier_utilisateur', {'id': user.id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                                    
+                                    {% if user.isBanned %}
+                                        <a href="{{ path('admin_toggle_ban_user', {'id': user.id}) }}" class="btn btn-success btn-sm">Unban</a>
+                                    {% else %}
+                                        <a href="{{ path('admin_toggle_ban_user', {'id': user.id}) }}" class="btn btn-danger btn-sm">Ban</a>
+                                    {% endif %}
+                                </div>
                             {% endif %}
+
                         </td>
 
                     </tr>
