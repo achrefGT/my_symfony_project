@@ -25,11 +25,11 @@
                         <td>
                             {% for role in user.roles %}
                                 {% if role == "ROLE_USER" %}
-                                    Utilisateur
+                                    User
                                 {% elseif role == "ROLE_EDITOR" %}
-                                    Editeur
+                                    Editor
                                 {% elseif role == "ROLE_ADMIN" %}
-                                    Administrateur
+                                    Administrator
                                 {% endif %}
                             {% endfor %}
                         </td>

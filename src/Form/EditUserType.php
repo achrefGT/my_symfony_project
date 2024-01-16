@@ -30,7 +30,7 @@ class EditUserType extends AbstractType
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci d\'entrer un e-mail',
+                        'message' => 'Please enter an Email.',
                     ]),
                 ],
                 'required' => true,
@@ -38,16 +38,16 @@ class EditUserType extends AbstractType
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
-                    'Utilisateur' => 'ROLE_USER',
-                    'Editeur' => 'ROLE_EDITOR',
-                    'Administrateur' => 'ROLE_ADMIN',
+                    'User' => 'ROLE_USER',
+                    'Editor' => 'ROLE_EDITOR',
+                    'Administrator' => 'ROLE_ADMIN',
                 ],
                 'expanded' => true,
                 'multiple' => true,
                 'label' => 'Rôles',
                 'attr' => ['class' => 'form-check-input mt-3 mb-3'],
             ])
-            ->add('valider', SubmitType::class, [
+            ->add('Validate', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success mt-4'],
             ]);
     }
