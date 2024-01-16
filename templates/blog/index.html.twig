@@ -28,10 +28,14 @@
                             <div class="metadata small">
                                 Written on {{ article.createdAt | date('d/m/y') }} at {{ article.createdAt | date('H:i') }} in the category <b>{{ article.category.title }}</b>
                             </div>
-                            <a href="{{ path('blog_show', { 'id' : article.id }) }}" class="btn btn-primary mt-3">Read more</a>
-                            {% if is_granted('ROLE_EDITOR') %}
-                                <a href="{{ path('blog_edit', { 'id' : article.id }) }}" class="btn btn-primary mt-3">Edit</a>
-                            {% endif %}
+                            <div class="btn-group" role="group" aria-label="Article Actions">
+                                <a href="{{ path('blog_show', { 'id' : article.id }) }}" class="btn btn-primary mt-3">Read more</a>
+                                
+                                {% if is_granted('ROLE_EDITOR') %}
+                                    <a href="{{ path('blog_edit', { 'id' : article.id }) }}" class="btn btn-outline-primary mt-3">Edit</a>
+                                {% endif %}
+                            </div>
+
                         </div>
                     </div>
                 </div>
